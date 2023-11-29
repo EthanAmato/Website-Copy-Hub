@@ -36,6 +36,11 @@ export const env = createEnv({
     // Add ` on ID and SECRET if you want to make sure they're not empty
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
+
+
+    // Blob Storage:
+    BLOG_ENDPOINT: z.string(),
+    BLOG_SAS_CONTAINER_URL: z.string()
   },
 
   /**
@@ -59,6 +64,8 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+    BLOG_ENDPOINT: process.env.BLOG_ENDPOINT,
+    BLOG_SAS_CONTAINER_URL: process.env.BLOG_SAS_CONTAINER_URL
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
