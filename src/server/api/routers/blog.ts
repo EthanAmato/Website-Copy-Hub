@@ -33,7 +33,7 @@ export const blogRouter = createTRPCRouter({
       const content = await streamToString(
         downloadBlockBlobResponse.readableStreamBody,
       );
-      blogPosts.push({ name: blobName, content });
+      blogPosts.push({ name: blobName, meta: downloadBlockBlobResponse.metadata, content });
     }
 
     return blogPosts;

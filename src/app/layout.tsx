@@ -6,6 +6,8 @@ import { cookies } from "next/headers";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Providers } from "./Theme/Providers";
 import SideMenu from "./_components/ui/SideMenu/sidemenu";
+import Navbar from "./_components/ui/Navbar/navbar";
+import { getServerAuthSession } from "~/server/auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,16 +20,19 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`font-sans ${inter.variable} no-scrollbar`}>
         <TRPCReactProvider cookies={cookies().toString()}>
           <Providers>
+            <Navbar/>
             {children}
             <SideMenu />
           </Providers>
