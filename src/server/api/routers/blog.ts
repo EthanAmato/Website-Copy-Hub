@@ -7,6 +7,11 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
+type BlogPostMetaData = {
+  title: string,
+  description: string
+}
+
 export const blogRouter = createTRPCRouter({
   getBlogNames: publicProcedure.query(async () => {
     const sasUrl = env.BLOG_SAS_CONTAINER_URL;
@@ -33,7 +38,7 @@ export const blogRouter = createTRPCRouter({
       const content = await streamToString(
         downloadBlockBlobResponse.readableStreamBody,
       );
-      blogPosts.push({ name: blobName, meta: downloadBlockBlobResponse.metadata, content });
+      blogPosts.push({ name: blobName, meta: downloadBlockBlobResponse.metadata as BlogPostMetaData, content });
     }
 
     return blogPosts;
