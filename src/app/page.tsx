@@ -1,13 +1,20 @@
+import { Metadata } from "next";
 import Link from "next/link";
 
 import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
+export const metadata: Metadata = {
+  title: "Ethan's Website Copier",
+  description:
+    "A website dedicated to professional Full Stack Developer Ethan Amato's pursuit for excellence in copying websites and documenting his progress using a fully featured blog",
+};
+
 export default async function Home() {
   // const hello = await api.blog.getBlogNames.query();
   const session = await getServerAuthSession();
-  console.log(session)
+  console.log(session);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-12 sm:p-24">
       <div className="flex w-full flex-col gap-3 text-center md:w-7/12">
@@ -65,8 +72,12 @@ export default async function Home() {
 
 async function CrudShowcase() {
   const session = await getServerAuthSession();
-  console.log(session)
+  console.log(session);
   if (!session?.user) return null;
 
-  return <div className="w-full max-w-xs text-center">Welcome, {session.user.name}</div>;
+  return (
+    <div className="w-full max-w-xs text-center">
+      Welcome, {session.user.name}
+    </div>
+  );
 }
