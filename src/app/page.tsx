@@ -5,9 +5,9 @@ import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
 export default async function Home() {
-  const hello = await api.blog.getBlogNames.query();
+  // const hello = await api.blog.getBlogNames.query();
   const session = await getServerAuthSession();
-  console.log(hello)
+  console.log(session)
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-12 sm:p-24">
       <div className="flex w-full flex-col gap-3 text-center md:w-7/12">
@@ -65,6 +65,7 @@ export default async function Home() {
 
 async function CrudShowcase() {
   const session = await getServerAuthSession();
+  console.log(session)
   if (!session?.user) return null;
 
   return <div className="w-full max-w-xs text-center">Welcome, {session.user.name}</div>;

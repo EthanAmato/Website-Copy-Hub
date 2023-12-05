@@ -90,18 +90,9 @@ export const authOptions: NextAuthOptions = {
         sub: token.sub,
       };
     },
-    async signIn({ user, account, profile }) {
-      console.log(user)
-      console.log(account)
-      console.log(profile)
+    async signIn({ profile }) {
 
-      const isAllowedToSignIn = true; // You can add your own login logic here
-      if (isAllowedToSignIn) {
-        return `/`; // Redirect to a specific page after sign in
-      } else {
-        // Return false to display a default error message
-        return false;
-      }
+      return profile?.email===env.ADMIN_EMAIL
     },
   },
   session: {

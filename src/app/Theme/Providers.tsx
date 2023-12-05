@@ -11,9 +11,9 @@ export function Providers({ children }: { children: ReactNode }) {
         enableSystem={true}
         attribute="class"
         defaultTheme="system"
-        >
+      >
         {children}
       </ThemeProvider>
-        </SessionProvider>
+    </SessionProvider>
   );
 }
