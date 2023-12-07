@@ -17,36 +17,35 @@ type BlogPostMetaData = {
 
 export const blogRouter = createTRPCRouter({
   getBlogMetadata: publicProcedure.query(async () => {
-
     let blobs = [];
     for await (const blob of containerClient.listBlobsFlat()) {
-      const metadata = await (await containerClient.getBlockBlobClient(blob.name).getProperties()).metadata as BlogPostMetaData
+      const metadata = (await (
+        await containerClient.getBlockBlobClient(blob.name).getProperties()
+      ).metadata) as BlogPostMetaData;
       blobs.push({
         id: metadata.id,
         title: metadata.title,
-        description: metadata.description
-      })
+        description: metadata.description,
+      });
     }
 
     return blobs;
   }),
-  getBlogById: publicProcedure.input(z.string().min(1)).query(async () => {
-    // Fetch and return content of each blob (Markdown file)
-    let blogPosts = [];
-    // for (const blobName of blobs) {
-    //   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    //   const downloadBlockBlobResponse = await blockBlobClient.download(0);
-
-    //   const content = await streamToString(
-    //     downloadBlockBlobResponse.readableStreamBody,
-    //   );
-    //   blogPosts.push({
-    //     name: blobName,
-    //     meta: downloadBlockBlobResponse.metadata as BlogPostMetaData,
-    //     content,
-    //   });
-    }
-  ),
+  getBlogById: publicProcedure
+    .input(z.string().min(1))
+    .query(async ({ ctx, input }) => {
+      // Fetch and return content of each blob (Markdown file)
+      console.log(input);
+      const blobById = containerClient.findBlobsByTags(`"id"='${input}'`);
+      for await (const blob of blobById) {
+        const blockBlobClient = containerClient.getBlockBlobClient(blob.name)
+        const downloadBlockBlobResponse = await blockBlobClient.download(0)
+        const content = await streamToString(
+          downloadBlockBlobResponse.readableStreamBody
+        ) as string;
+          return content;
+      }
+    }),
 });
 
 // Helper function to read a readable stream into a string
