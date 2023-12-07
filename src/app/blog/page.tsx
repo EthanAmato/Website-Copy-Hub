@@ -12,7 +12,7 @@ export const metadata: Metadata = {
  * Page for displaying available and most recent blog posts
  **/
 export default async function Blog() {
-  const blogPostsMeta = await api.blog.getBlogNames.query();
+  const blogPostsMeta = await api.blog.getBlogMetadata.query();
 
   return (
     <main className="min-h-screen bg-gray-100 dark:bg-black">
@@ -33,10 +33,10 @@ export default async function Blog() {
 
               <div className="p-4">
                 <p className="mb-2 rounded-lg p-2 text-xl font-semibold text-gray-800 dark:bg-slate-600 dark:text-white">
-                  {post.meta.title}
+                  {post.title}
                 </p>
                 <p className="text-gray-600 dark:text-white">
-                  {post.meta.description}
+                  {post.description}
                 </p>
               </div>
             </div>
