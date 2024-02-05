@@ -8,9 +8,7 @@ type BlogByIdProps = {
 };
 
 export default async function BlogById({ params }: BlogByIdProps) {
-  console.log(params);
   const blogById = await api.blog.getBlogById.query(params.blogId);
-  console.log(blogById);
   return (
     <>
       <article className="container">

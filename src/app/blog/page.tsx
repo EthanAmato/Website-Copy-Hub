@@ -32,7 +32,7 @@ export default async function Blog() {
               {/* Optional: Include an image if your posts have thumbnails */}
               {/* <img src={post.meta.thumbnail} alt={post.meta.title} className="w-full h-48 object-cover" /> */}
 
-            <Link href={`/blog/${post.id}`} className="hover:bg-slate-400 dark:hover:bg-slate-700 group transition-colors duration-500">
+            <Link href={`/blog/${post.id}`} className="hover:bg-slate-400 dark:hover:bg-slate-700 h-full group transition-colors duration-500">
               <div className="p-4">
                 <p className="mb-2 rounded-lg p-2 text-xl font-semibold text-gray-800 dark:bg-slate-600 dark:text-white group-hover:text-white transition-colors duration-500">
                   {post.title}

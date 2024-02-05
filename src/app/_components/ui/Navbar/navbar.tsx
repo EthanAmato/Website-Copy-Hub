@@ -24,14 +24,14 @@ export default function Navbar({}) {
   }[] = [
     {
       title: "Blog",
-      href: "/browse",
+      href: "/blog",
       description:
         "Read Ethan's Blog on anything and everything web development",
       needAuth: false,
     },
     {
       title: "Website Copies",
-      href: "/bingo",
+      href: "/websites",
       description:
         "Take a look at modern UI/UX practices through a comprehensive suite of website copies",
       needAuth: false,

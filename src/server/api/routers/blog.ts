@@ -38,12 +38,12 @@ export const blogRouter = createTRPCRouter({
       console.log(input);
       const blobById = containerClient.findBlobsByTags(`"id"='${input}'`);
       for await (const blob of blobById) {
-        const blockBlobClient = containerClient.getBlockBlobClient(blob.name)
-        const downloadBlockBlobResponse = await blockBlobClient.download(0)
-        const content = await streamToString(
-          downloadBlockBlobResponse.readableStreamBody
-        ) as string;
-          return content;
+        const blockBlobClient = containerClient.getBlockBlobClient(blob.name);
+        const downloadBlockBlobResponse = await blockBlobClient.download(0);
+        const content = (await streamToString(
+          downloadBlockBlobResponse.readableStreamBody,
+        )) as string;
+        return content;
       }
     }),
 });
