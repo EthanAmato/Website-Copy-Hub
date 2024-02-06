@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 import { api } from "~/trpc/server";
+import NewBlogButton from "./blogComponents/NewBlogButton";
 
 export const metadata: Metadata = {
   title: "Recent Blog Posts",
@@ -17,7 +18,7 @@ export default async function Blog() {
 
   return (
     <main className="min-h-screen bg-gray-100 dark:bg-black">
-      <header className="bg-blue-600 py-6 dark:bg-slate-700">
+      <header className="bg-blue-600 py-6 text-center dark:bg-slate-700">
         <h1 className="text-center text-4xl font-bold text-white">
           Check out My Most Recent Blog Posts
         </h1>
@@ -32,20 +33,26 @@ export default async function Blog() {
               {/* Optional: Include an image if your posts have thumbnails */}
               {/* <img src={post.meta.thumbnail} alt={post.meta.title} className="w-full h-48 object-cover" /> */}
 
-            <Link href={`/blog/${post.id}`} className="hover:bg-slate-400 dark:hover:bg-slate-700 h-full group transition-colors duration-500">
-              <div className="p-4">
-                <p className="mb-2 rounded-lg p-2 text-xl font-semibold text-gray-800 dark:bg-slate-600 dark:text-white group-hover:text-white transition-colors duration-500">
-                  {post.title}
-                </p>
-                <p className="text-gray-600 dark:text-white group-hover:text-slate-200 duration-500 transition-colors">
-                  {post.description}
-                </p>
-              </div>
-            </Link>
+              <Link
+                href={`/blog/${post.id}`}
+                className="group h-full transition-colors duration-500 hover:bg-slate-400 dark:hover:bg-slate-700"
+              >
+                <div className="p-4">
+                  <p className="mb-2 rounded-lg p-2 text-xl font-semibold text-gray-800 transition-colors duration-500 group-hover:text-white dark:bg-slate-600 dark:text-white">
+                    {post.title}
+                  </p>
+                  <p className="text-gray-600 transition-colors duration-500 group-hover:text-slate-200 dark:text-white">
+                    {post.description}
+                  </p>
+                </div>
+              </Link>
             </div>
           ))}
         </div>
       </section>
+      <footer className="text-center">
+        <NewBlogButton />
+      </footer>
     </main>
   );
 }
