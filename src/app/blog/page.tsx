@@ -23,7 +23,7 @@ export default async function Blog() {
           Check out My Most Recent Blog Posts
         </h1>
       </header>
-      <section className="container mx-auto px-4 py-8 md:px-0">
+      <section className="container lg:mx-auto px-12 md:mx-10 py-8 md:px-0">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {blogPostsMeta.map((post) => (
             <div
