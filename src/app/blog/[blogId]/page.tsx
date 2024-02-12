@@ -14,9 +14,10 @@ export default async function BlogById({ params }: BlogByIdProps) {
       <article className="container">
         <Markdown
           className={
-            "prose mx-auto dark:text-white dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-code:text-slate-400 dark:prose-pre:bg-slate-950"           }
+            "prose mx-auto dark:text-white dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-code:text-slate-400 dark:prose-pre:bg-slate-950"
+          }
         >
-          {blogById}
+          {blogById ? blogById : ""}
         </Markdown>
       </article>
     </>

@@ -55,8 +55,23 @@ export const blogRouter = createTRPCRouter({
         // Blob found with matching ID in metadata
         const blockBlobClient = containerClient.getBlockBlobClient(blob.name);
         const downloadBlockBlobResponse = await blockBlobClient.download(0);
-        const content = await streamToString(downloadBlockBlobResponse.readableStreamBody);
+        const content = await streamToString(downloadBlockBlobResponse.readableStreamBody) as string;
         return content;
+      }
+    }
+    throw new Error('Blog post not found');
+  }),
+
+  deleteBlogById: protectedProcedure
+  .input(z.string().min(1))
+  .mutation(async ({input}) => {
+    for await (const blob of containerClient.listBlobsFlat()) {
+      const properties = await containerClient.getBlockBlobClient(blob.name).getProperties();
+      if (properties.metadata && properties.metadata.id === input) {
+        // Blob found with matching ID in metadata
+        const blockBlobClient = containerClient.getBlockBlobClient(blob.name);
+        const deleteResponse = await blockBlobClient.deleteIfExists();
+        return deleteResponse;
       }
     }
     throw new Error('Blog post not found');
@@ -103,6 +118,7 @@ export const blogRouter = createTRPCRouter({
         throw new Error("Failed to save Blog Post");
       }
     }),
+
 });
 
 // Helper function to read a readable stream into a string

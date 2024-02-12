@@ -3,6 +3,9 @@ import Link from "next/link";
 import React from "react";
 import { api } from "~/trpc/server";
 import NewBlogButton from "./blogComponents/NewBlogButton";
+import { getServerAuthSession } from "~/server/auth";
+import { Button } from "../_components/ui/button";
+import DeleteBlogButton from "./blogComponents/DeleteBlogButton";
 
 export const metadata: Metadata = {
   title: "Recent Blog Posts",
@@ -16,6 +19,8 @@ export const metadata: Metadata = {
 export default async function Blog() {
   const blogPostsMeta = await api.blog.getBlogMetadata.query();
 
+  const session = await getServerAuthSession();
+  
   return (
     <main className="min-h-screen bg-gray-100 dark:bg-black">
       <header className="bg-blue-600 py-6 text-center dark:bg-slate-700">
@@ -23,16 +28,13 @@ export default async function Blog() {
           Check out My Most Recent Blog Posts
         </h1>
       </header>
-      <section className="container lg:mx-auto px-12 md:mx-10 py-8 md:px-0">
+      <section className="container px-12 py-8 md:mx-10 md:px-0 lg:mx-auto">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {blogPostsMeta.map((post) => (
             <div
               className="flex flex-col overflow-hidden rounded-xl border-white bg-white  shadow-lg dark:border dark:bg-black dark:shadow-white"
               key={post.id}
             >
-              {/* Optional: Include an image if your posts have thumbnails */}
-              {/* <img src={post.meta.thumbnail} alt={post.meta.title} className="w-full h-48 object-cover" /> */}
-
               <Link
                 href={`/blog/${post.id}`}
                 className="group h-full transition-colors duration-500 hover:bg-slate-400 dark:hover:bg-slate-700"
@@ -46,6 +48,8 @@ export default async function Blog() {
                   </p>
                 </div>
               </Link>
+              
+              <DeleteBlogButton postId={post.id!}/>
             </div>
           ))}
         </div>
