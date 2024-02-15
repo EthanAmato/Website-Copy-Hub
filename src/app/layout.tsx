@@ -9,6 +9,7 @@ import SideMenu from "./_components/ui/SideMenu/sidemenu";
 import Navbar from "./_components/ui/Navbar/navbar";
 import { getServerAuthSession } from "~/server/auth";
 import { Toaster } from "./_components/ui/sonner";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,14 +27,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable} no-scrollbar`}>
         <TRPCReactProvider cookies={cookies().toString()}>
           <Providers>
-            <Navbar/>
+            <NextTopLoader showSpinner={false} height={5} />
             {children}
             <SideMenu />
             <Toaster />

@@ -8,6 +8,7 @@ import {
 } from "~/server/api/trpc";
 import containerClient from "~/server/db/blogClient";
 import { randomUUID } from "crypto";
+import { revalidatePath } from "next/cache";
 
 const BlogPostMetaDataSchema = z.object({
   id: z.string().optional(), // ID is optional

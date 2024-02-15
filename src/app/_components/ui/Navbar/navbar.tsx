@@ -31,7 +31,7 @@ export default function Navbar({}) {
     },
     {
       title: "Website Copies",
-      href: "/websites",
+      href: "/sites",
       description:
         "Take a look at modern UI/UX practices through a comprehensive suite of website copies",
       needAuth: false,
