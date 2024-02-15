@@ -1,6 +1,4 @@
 import { z } from "zod";
-import { env } from "~/env.mjs";
-import { BlobServiceClient } from "@azure/storage-blob";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -8,7 +6,6 @@ import {
 } from "~/server/api/trpc";
 import containerClient from "~/server/db/blogClient";
 import { randomUUID } from "crypto";
-import { revalidatePath } from "next/cache";
 
 const BlogPostMetaDataSchema = z.object({
   id: z.string().optional(), // ID is optional
@@ -23,7 +20,7 @@ const BlogPostSchema = BlogPostMetaDataSchema.merge(BlogPostDataSchema);
 
 export const blogRouter = createTRPCRouter({
   getBlogMetadata: publicProcedure.query(async () => {
-    let blobs = [];
+    const blobs = [];
     for await (const blob of containerClient.listBlobsFlat()) {
       const properties = await containerClient
         .getBlockBlobClient(blob.name)
@@ -48,35 +45,41 @@ export const blogRouter = createTRPCRouter({
     return blobs;
   }),
   getBlogById: publicProcedure
-  .input(z.string().min(1))
-  .query(async ({ input }) => {
-    for await (const blob of containerClient.listBlobsFlat()) {
-      const properties = await containerClient.getBlockBlobClient(blob.name).getProperties();
-      if (properties.metadata && properties.metadata.id === input) {
-        // Blob found with matching ID in metadata
-        const blockBlobClient = containerClient.getBlockBlobClient(blob.name);
-        const downloadBlockBlobResponse = await blockBlobClient.download(0);
-        const content = await streamToString(downloadBlockBlobResponse.readableStreamBody) as string;
-        return content;
+    .input(z.string().min(1))
+    .query(async ({ input }) => {
+      for await (const blob of containerClient.listBlobsFlat()) {
+        const properties = await containerClient
+          .getBlockBlobClient(blob.name)
+          .getProperties();
+        if (properties.metadata && properties.metadata.id === input) {
+          // Blob found with matching ID in metadata
+          const blockBlobClient = containerClient.getBlockBlobClient(blob.name);
+          const downloadBlockBlobResponse = await blockBlobClient.download(0);
+          const content = (await streamToString(
+            downloadBlockBlobResponse.readableStreamBody,
+          )) as string;
+          return content;
+        }
       }
-    }
-    throw new Error('Blog post not found');
-  }),
+      throw new Error("Blog post not found");
+    }),
 
   deleteBlogById: protectedProcedure
-  .input(z.string().min(1))
-  .mutation(async ({input}) => {
-    for await (const blob of containerClient.listBlobsFlat()) {
-      const properties = await containerClient.getBlockBlobClient(blob.name).getProperties();
-      if (properties.metadata && properties.metadata.id === input) {
-        // Blob found with matching ID in metadata
-        const blockBlobClient = containerClient.getBlockBlobClient(blob.name);
-        const deleteResponse = await blockBlobClient.deleteIfExists();
-        return deleteResponse;
+    .input(z.string().min(1))
+    .mutation(async ({ input }) => {
+      for await (const blob of containerClient.listBlobsFlat()) {
+        const properties = await containerClient
+          .getBlockBlobClient(blob.name)
+          .getProperties();
+        if (properties.metadata && properties.metadata.id === input) {
+          // Blob found with matching ID in metadata
+          const blockBlobClient = containerClient.getBlockBlobClient(blob.name);
+          const deleteResponse = await blockBlobClient.deleteIfExists();
+          return deleteResponse;
+        }
       }
-    }
-    throw new Error('Blog post not found');
-  }),
+      throw new Error("Blog post not found");
+    }),
 
   postNewBlog: protectedProcedure
     .input(
@@ -94,7 +97,7 @@ export const blogRouter = createTRPCRouter({
       const metadata = {
         title: title,
         description: description,
-        id: newId
+        id: newId,
       };
       const blockBlobClient = containerClient.getBlockBlobClient(fileName);
 
@@ -115,14 +118,14 @@ export const blogRouter = createTRPCRouter({
           metadata: metadata,
         };
       } catch (e) {
-        console.error(`Error uploading blob: ${e}`);
+        console.error(`Error uploading blob: ${(e as Error).message}`);
         throw new Error("Failed to save Blog Post");
       }
     }),
-
 });
 
 // Helper function to read a readable stream into a string
+/* eslint-disable */
 async function streamToString(
   readableStream: NodeJS.ReadableStream | undefined,
 ) {
@@ -137,3 +140,4 @@ async function streamToString(
     readableStream?.on("error", reject);
   });
 }
+/* eslint-disable  */

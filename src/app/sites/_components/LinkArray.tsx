@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { SiteData } from "../siteData";
+import { type SiteData } from "../siteData";
 
 // Change the prop type to expect an object with an `array` key
 type LinkArrayProps = {

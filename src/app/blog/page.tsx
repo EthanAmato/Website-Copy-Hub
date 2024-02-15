@@ -1,10 +1,8 @@
-import { Metadata } from "next";
+import { type Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 import { api } from "~/trpc/server";
 import NewBlogButton from "./blogComponents/NewBlogButton";
-import { getServerAuthSession } from "~/server/auth";
-import { Button } from "../_components/ui/button";
 import DeleteBlogButton from "./blogComponents/DeleteBlogButton";
 
 export const metadata: Metadata = {
@@ -19,7 +17,7 @@ export const metadata: Metadata = {
 export default async function Blog() {
   const blogPostsMeta = await api.blog.getBlogMetadata.query();
 
-  const session = await getServerAuthSession();
+  // const session = await getServerAuthSession();
   
   return (
     <main className="min-h-screen bg-gray-100 dark:bg-black">

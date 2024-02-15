@@ -6,8 +6,6 @@ import { cookies } from "next/headers";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Providers } from "./Theme/Providers";
 import SideMenu from "./_components/ui/SideMenu/sidemenu";
-import Navbar from "./_components/ui/Navbar/navbar";
-import { getServerAuthSession } from "~/server/auth";
 import { Toaster } from "./_components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
 
@@ -22,7 +20,7 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/copierlogo.png" }],
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;

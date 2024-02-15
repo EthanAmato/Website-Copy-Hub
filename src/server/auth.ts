@@ -90,7 +90,7 @@ export const authOptions: NextAuthOptions = {
         sub: token.sub,
       };
     },
-    async signIn({ profile }) {
+    signIn({ profile }) {
 
       return profile?.email===env.ADMIN_EMAIL
     },

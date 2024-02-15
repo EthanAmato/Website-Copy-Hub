@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "../_components/ui/Navbar/navbar";
-import Link from "next/link";
 import LinkArray from "./_components/LinkArray";
 import { copySiteData, originalSiteData } from "./siteData";
 

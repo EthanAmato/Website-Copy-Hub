@@ -4,8 +4,6 @@ import {
   primaryKey,
   integer,
   pgTableCreator,
-  bigint,
-  varchar,
   pgEnum,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";

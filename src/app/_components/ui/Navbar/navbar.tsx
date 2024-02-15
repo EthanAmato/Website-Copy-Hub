@@ -44,9 +44,9 @@ export default function Navbar({}) {
         "cursor-pointer rounded-lg bg-white dark:text-black px-3 py-1 transition-colors duration-300 hover:bg-slate-300",
         className,
       )}
-      onClick={() => {
-        if (session.status === "authenticated") signOut();
-        else signIn();
+      onClick={async () => {
+        if (session.status === "authenticated") await signOut();
+        else await signIn();
       }}
     >
       {session.status === "authenticated" ? "Logout" : "Admin Login"}

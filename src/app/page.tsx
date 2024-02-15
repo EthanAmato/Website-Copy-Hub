@@ -1,9 +1,6 @@
-import { Metadata } from "next";
+import { type Metadata } from "next";
 import Link from "next/link";
-
-import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
 import Navbar from "./_components/ui/Navbar/navbar";
 
 export const metadata: Metadata = {
@@ -73,13 +70,13 @@ export default async function Home() {
   );
 }
 
-async function CrudShowcase() {
-  const session = await getServerAuthSession();
-  if (!session?.user) return null;
+// async function CrudShowcase() {
+//   const session = await getServerAuthSession();
+//   if (!session?.user) return null;
 
-  return (
-    <div className="w-full max-w-xs text-center">
-      Welcome, {session.user.name}
-    </div>
-  );
-}
+//   return (
+//     <div className="w-full max-w-xs text-center">
+//       Welcome, {session.user.name}
+//     </div>
+//   );
+// }

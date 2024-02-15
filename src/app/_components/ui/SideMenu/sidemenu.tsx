@@ -7,7 +7,6 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarSeparator,
-  MenubarShortcut,
   MenubarTrigger,
 } from "~/app/_components/ui/menubar";
 import { useTheme } from "next-themes";

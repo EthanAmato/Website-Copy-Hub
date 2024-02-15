@@ -1,20 +1,11 @@
 "use client";
 
-import React, {
-  FormEvent,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { type FormEvent, useState } from "react";
 import { Button } from "~/app/_components/ui/button";
 import Markdown from "react-markdown";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "~/app/_components/ui/dialog";
 import { toast } from "sonner";
@@ -26,7 +17,7 @@ export default function NewPost() {
   const [blogPostText, setBlogPostText] = useState<string>("");
   const blogPostMutation = api.blog.postNewBlog.useMutation();
   console.log(blogPostMutation);
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (
       blogPostText.length === 0 ||
@@ -46,7 +37,7 @@ export default function NewPost() {
         description: blogPostDescription,
       },
     };
-    await blogPostMutation.mutate(blogPostData);
+    blogPostMutation.mutate(blogPostData);
     if (blogPostMutation.data?.success) {
       toast(blogPostMutation.data.message, {
         description: `Post Name: ${blogPostMutation.data.metadata.title},
